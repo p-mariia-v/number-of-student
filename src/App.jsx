@@ -1,15 +1,20 @@
 import { useState } from "react";
-import * as d3 from "d3";
 import "./App.css";
 import data from "./data/data.js";
 import Barplot from "./components/Barplot.jsx";
-console.log(data);
+import ColorLegend from "./components/ColorLegend.jsx";
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <h1>Students by Country</h1>
-      <Barplot data={data} />
+      <h2>D3 & React course. First cohort</h2>
+      <div className="legend-container">
+        <ColorLegend data={data} />
+      </div>
+      <div className="chart-container">
+        <Barplot data={data} />
+      </div>
     </div>
   );
 }

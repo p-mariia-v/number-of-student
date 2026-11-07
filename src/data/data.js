@@ -1,6 +1,6 @@
 const data = [
-  { country: "United States", students: 68 },
   { country: "France", students: 21 },
+  { country: "United States", students: 68 },
   { country: "United Kingdom", students: 21 },
   { country: "Germany", students: 20 },
   { country: "Switzerland", students: 13 },
