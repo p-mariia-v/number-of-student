@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import regions from "../data/regions.js";
 import regionColors from "../data/regionColors.js";
 
-const Barplot = ({ data }) => {
+const Barplot = ({ data, activeRegion }) => {
   const sortedData = [...data].sort((a, b) => b.students - a.students);
   // SVG dimensions
   const width = 500;
@@ -60,6 +60,7 @@ const Barplot = ({ data }) => {
         {/* Country labels */}
         {sortedData.map((d) => (
           <text
+            className="chart-label"
             key={d.country}
             x={-10} // робимо відступ від чарту
             y={yScale(d.country) + yScale.bandwidth() / 2} // центруємо, початок стовпчика додаємо це половину стовпчика
@@ -73,6 +74,7 @@ const Barplot = ({ data }) => {
         {/* Student values */}
         {sortedData.map((d) => (
           <text
+            className="chart-label"
             key={d.country}
             x={xScale(d.students) + 5} // в кінці стовпчика додаємо відстань
             y={yScale(d.country) + yScale.bandwidth() / 2}

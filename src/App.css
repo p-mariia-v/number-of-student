@@ -47,5 +47,8 @@ body {
   flex: none; /* висота за вмістом */
   display: flex;
   justify-content: center; /* легенда по центру, як і заголовки */
-  margin-top: 40;
 }
+.chart-label {
+  fill: var(--text-h); /* світлий на темній темі, темний на світлій */
+}
+
