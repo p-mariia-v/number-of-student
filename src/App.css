@@ -44,10 +44,28 @@ body {
   min-width: 0;
 }
 .legend-container {
-  flex: none; /* висота за вмістом */
+  flex: none;
   display: flex;
-  justify-content: center; /* легенда по центру, як і заголовки */
+  justify-content: center;
   margin-top: 24px;
+  padding: 0 6px; /* щоб пілюлі не липли до країв екрана */
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap; /* дозволяє переносити на новий рядок */
+  justify-content: center;
+  gap: 8px;
+}
+
+.legend-pill {
+  padding: 0px 16px;
+  border-radius: 999px;
+  color: var(--text-h);
+  font-size: 12px;
+  white-space: nowrap; /* назва регіону не рветься посередині */
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 .chart-label {
   fill: var(--text-h); /* світлий на темній темі, темний на світлій */

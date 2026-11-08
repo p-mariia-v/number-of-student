@@ -1,55 +1,29 @@
 import regionColors from "../data/regionColors.js";
 
 const ColorLegend = ({ activeRegion, onHover }) => {
-  const gap = 8;
-
-  let offset = 0;
-  const items = Object.entries(regionColors)
-
-    .map(([region, color]) => {
-      const pillWidth = region.length * 7 + 20;
-      const x = offset;
-      offset += pillWidth + gap;
-      return { region, color, pillWidth, x };
-    });
+  const regionList = Object.entries(regionColors).filter(
+    ([region]) => region !== "Other",
+  );
 
   return (
-    <svg width={offset - gap} height={22}>
-      {items.map((item) => {
-        const isDimmed = activeRegion && activeRegion !== item.region;
+    <div className="legend">
+      {regionList.map(([region, color]) => {
+        const isDimmed = activeRegion && activeRegion !== region;
 
         return (
-          <g
-            key={item.region}
-            transform={`translate(${item.x}, 0)`}
-            onMouseEnter={() => onHover(item.region)}
+          <div
+            key={region}
+            className="legend-pill"
+            style={{ background: color, opacity: isDimmed ? 0.4 : 1 }}
+            onMouseEnter={() => onHover(region)}
             onMouseLeave={() => onHover(null)}
-            style={{
-              cursor: "pointer",
-              opacity: isDimmed ? 0.4 : 1,
-              transition: "opacity 0.2s",
-            }}
+            onClick={() => onHover(activeRegion === region ? null : region)}
           >
-            <rect
-              width={item.pillWidth}
-              height={22}
-              fill={item.color}
-              rx={11}
-            />
-            <text
-              x={item.pillWidth / 2}
-              y={11}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fontSize={11}
-              fill="white"
-            >
-              {item.region}
-            </text>
-          </g>
+            {region}
+          </div>
         );
       })}
-    </svg>
+    </div>
   );
 };
 
