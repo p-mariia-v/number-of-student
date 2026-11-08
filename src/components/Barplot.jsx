@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import regions from "../data/regions.js";
 import regionColors from "../data/regionColors.js";
 
-const Barplot = ({ data, activeRegion }) => {
+const Barplot = ({ data, activeRegion, onHover }) => {
   const sortedData = [...data].sort((a, b) => b.students - a.students);
   // SVG dimensions
   const width = 500;
@@ -45,45 +45,52 @@ const Barplot = ({ data, activeRegion }) => {
       <g transform={`translate(${margin.left}, ${margin.top})`}>
         {" "}
         {/* g - група елемнгтів. зміщуємо і ліво і вверх*/}
-        {/* Bars */}
-        {sortedData.map((d) => (
-          <rect
-            key={d.country}
-            x={0}
-            y={yScale(d.country)}
-            width={xScale(d.students)}
-            height={yScale.bandwidth()} //повертає висоту стовпчика
-            fill={colorScale(regions[d.country] ?? "Other")}
-            rx={yScale.bandwidth() / 2}
-          />
-        ))}
-        {/* Country labels */}
-        {sortedData.map((d) => (
-          <text
-            className="chart-label"
-            key={d.country}
-            x={-10} // робимо відступ від чарту
-            y={yScale(d.country) + yScale.bandwidth() / 2} // центруємо, початок стовпчика додаємо це половину стовпчика
-            textAnchor="end" // вирівнює по правому краю
-            dominantBaseline="middle" // вирівнює текст вертикально по центру
-            fontSize={12}
-          >
-            {d.country}
-          </text>
-        ))}
-        {/* Student values */}
-        {sortedData.map((d) => (
-          <text
-            className="chart-label"
-            key={d.country}
-            x={xScale(d.students) + 5} // в кінці стовпчика додаємо відстань
-            y={yScale(d.country) + yScale.bandwidth() / 2}
-            dominantBaseline="middle"
-            fontSize={12}
-          >
-            {d.students}
-          </text>
-        ))}
+        {sortedData.map((d) => {
+          const region = regions[d.country];
+          const isDimmed = activeRegion && activeRegion !== region;
+
+          return (
+            <g
+              key={region}
+              style={{
+                opacity: isDimmed ? 0.1 : 1,
+                transition: "opacity 0.2s",
+              }}
+            >
+              <rect
+                key={d.country}
+                x={0}
+                y={yScale(d.country)}
+                width={xScale(d.students)}
+                height={yScale.bandwidth()} //повертає висоту стовпчика
+                fill={colorScale(regions[d.country] ?? "Other")}
+                rx={yScale.bandwidth() / 2}
+              />
+              <text
+                className="chart-label"
+                key={d.country}
+                x={-10} // робимо відступ від чарту
+                y={yScale(d.country) + yScale.bandwidth() / 2} // центруємо, початок стовпчика додаємо це половину стовпчика
+                textAnchor="end" // вирівнює по правому краю
+                dominantBaseline="middle" // вирівнює текст вертикально по центру
+                fontSize={12}
+              >
+                {d.country}
+              </text>
+
+              <text
+                className="chart-label"
+                key={d.country}
+                x={xScale(d.students) + 5} // в кінці стовпчика додаємо відстань
+                y={yScale(d.country) + yScale.bandwidth() / 2}
+                dominantBaseline="middle"
+                fontSize={12}
+              >
+                {d.students}
+              </text>
+            </g>
+          );
+        })}
       </g>
     </svg>
   );
